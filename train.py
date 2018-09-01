@@ -7,9 +7,49 @@ from datetime import datetime
 from pathlib import Path
 from sklearn import metrics
 
-from evaluate import run_model
 from loader import load_data
 from model import SeriesModel
+
+def run_model(model, loader, train=False, optimizer=None):
+    preds = []
+    labels = []
+
+    if train:
+        model.train()
+    else:
+        model.eval()
+
+    total_loss = 0.
+    num_batches = 0
+
+    for batch in loader:
+        if train:
+            optimizer.zero_grad()
+
+        vol, label = batch
+        logit = model.forward(vol)
+
+        loss = loader.dataset.weighted_loss(logit, label)
+        total_loss += loss.item()
+
+        pred = torch.sigmoid(logit)
+        pred_npy = pred.data.cpu().numpy()[0][0]
+        label_npy = label.data.cpu().numpy()[0][0]
+
+        preds.append(pred_npy)
+        labels.append(label_npy)
+
+        if train:
+            loss.backward()
+            optimizer.step()
+        num_batches += 1
+
+    avg_loss = total_loss / num_batches
+
+    fpr, tpr, threshold = metrics.roc_curve(labels, preds)
+    auc = metrics.auc(fpr, tpr)
+
+    return avg_loss, auc
 
 def train(rundir, model_path, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
     train_loader, valid_loader, test_loader = load_data('data', use_gpu, horizontal_flip, rotate, shift)
