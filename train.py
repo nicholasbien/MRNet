@@ -108,7 +108,7 @@ def get_parser():
     # Training Parameters
     parser.add_argument('--learning_rate', default=1e-05, type=float)
     parser.add_argument('--weight_decay', default=0.01, type=float)
-    parser.add_argument('--epochs', default=30, type=int)
+    parser.add_argument('--epochs', default=50, type=int)
     parser.add_argument('--max_patience', default=5, type=int)
     parser.add_argument('--factor', default=0.3, type=float)
     # Data Augmentation Parameters
