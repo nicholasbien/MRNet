@@ -39,7 +39,7 @@ def run_model(model, loader, train=False, optimizer=None):
         logit = model.forward(vol)
 
         loss = loader.dataset.weighted_loss(logit, label)
-        total_loss += loss.data.cpu().numpy()[0]
+        total_loss += loss.item()
 
         pred = torch.sigmoid(logit)
         pred_npy = pred.data.cpu().numpy()[0][0]
