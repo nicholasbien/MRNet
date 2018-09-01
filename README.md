@@ -23,6 +23,6 @@ OR
 
 OR
 
-`export CUDA_VISIBLE_DEVICES=0; python evaluate.py --split [train/valid/test] __model_path models/sagittal-acl`
+`export CUDA_VISIBLE_DEVICES=0; python evaluate.py --split [train/valid/test] __model_path [experiment_name]/[model_path]`
 
 - prints loss & AUC
