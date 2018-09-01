@@ -80,14 +80,14 @@ def train(rundir, model_path, epochs, learning_rate, use_gpu, horizontal_flip, r
 
     for epoch in range(50):
         change = datetime.now() - start_time
-        print('Starting epoch {}. Time passed: {}'.format(epoch+1, str(change)))
+        print('starting epoch {}. time passed: {}'.format(epoch+1, str(change)))
         train_loss, train_auc = run_model(model, train_loader, train=True, optimizer=optimizer)
-        print(f'Average training loss: {train_loss:0.4f}')
-        print(f'Average training AUC: {train_auc:0.4f}')
+        print(f'train loss: {train_loss:0.4f}')
+        print(f'train AUC: {train_auc:0.4f}')
 
         val_loss, val_auc = run_model(model, valid_loader)
-        print(f'Average validation loss: {val_loss:0.4f}')
-        print(f'Average validation AUC: {val_auc:0.4f}')
+        print(f'valid loss: {val_loss:0.4f}')
+        print(f'valid AUC: {val_auc:0.4f}')
 
         scheduler.step(val_loss)
 

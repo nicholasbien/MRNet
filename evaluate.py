@@ -32,8 +32,8 @@ def evaluate(split, model_path, use_gpu):
         loader = test_loader
 
     loss, auc = run_model(model, loader)
-    print(f'Average {split} loss: {loss:0.4f}')
-    print(f'Average {split} AUC: {auc:0.4f}')
+    print(f'{split} loss: {loss:0.4f}')
+    print(f'{split} AUC: {auc:0.4f}')
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
