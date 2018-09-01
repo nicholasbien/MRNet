@@ -3,9 +3,12 @@ import json
 import numpy as np
 import os
 import torch
+
+
 from datetime import datetime
 from pathlib import Path
 from sklearn import metrics
+from torch.autograd import Variable
 
 from loader import load_data
 from model import SeriesModel
@@ -27,6 +30,12 @@ def run_model(model, loader, train=False, optimizer=None):
             optimizer.zero_grad()
 
         vol, label = batch
+        if loader.dataset.use_gpu:
+            vol = vol.cuda()
+            label = label.cuda()
+        vol = Variable(vol)
+        label = Variable(label)
+
         logit = model.forward(vol)
 
         loss = loader.dataset.weighted_loss(logit, label)
@@ -55,11 +64,13 @@ def train(rundir, model_path, epochs, learning_rate, use_gpu, horizontal_flip, r
     train_loader, valid_loader, test_loader = load_data('data', use_gpu, horizontal_flip, rotate, shift)
     
     model = SeriesModel()
-    if use_gpu:
-        model.cuda()
-    state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
+    
+    state_dict = torch.load(model_path)#, map_location=(None if use_gpu else 'cpu'))
     model.load_state_dict(state_dict)
         
+    if use_gpu:
+        model = model.cuda()
+
     optimizer = torch.optim.Adam(model.parameters(), learning_rate, weight_decay=.01)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=.3, threshold=1e-4)
 

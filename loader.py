@@ -25,9 +25,6 @@ class Dataset(data.Dataset):
         with open(self.datadir / f'{split}.csv') as f:
             self.labels = [int(int(line.strip().split(',')[1]) > 0) for line in f]
 
-        self.paths = self.paths[:20]
-        self.labels = self.labels[:20]
-
         if self.train:
             self.horizontal_flip = horizontal_flip
             self.rotate = rotate
@@ -106,11 +103,7 @@ class Dataset(data.Dataset):
         vol_tensor = torch.FloatTensor(vol)
         label_tensor = torch.FloatTensor([self.labels[index]])
 
-        if self.use_gpu:
-            vol_tensor.cuda()
-            label_tensor.cuda()
-        
-        return Variable(vol_tensor), Variable(label_tensor)
+        return vol_tensor, label_tensor
 
     def __len__(self):
         return len(self.paths)
