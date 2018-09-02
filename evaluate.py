@@ -18,10 +18,10 @@ def get_parser():
     parser.add_argument('--ensemble', action='store_true')
     return parser
 
-def evaluate_ensemble(split, model_dir, use_gpu):
+def evaluate_ensemble(split, model_dir, diagnosis, use_gpu):
     all_preds = []
     for model_path in os.listdir(model_dir):
-        preds, labels = evaluate(split, os.path.join(model_dir, model_path), use_gpu)
+        preds, labels = evaluate(split, os.path.join(model_dir, model_path), diagnosis, use_gpu)
         all_preds.append(preds)
     preds = np.array(all_preds)
     labels = np.array(labels)
@@ -32,14 +32,15 @@ def evaluate_ensemble(split, model_dir, use_gpu):
     print(f'ensemble {split} AUC: {auc:0.4f}')
     
 
-def evaluate(split, model_path, use_gpu):
-    train_loader, valid_loader, test_loader = load_data('data', use_gpu)
+def evaluate(split, model_path, diagnosis, use_gpu):
+    train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu)
 
     model = SeriesModel()
-    if use_gpu:
-        model.cuda()
     state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
     model.load_state_dict(state_dict)
+
+    if use_gpu:
+        model = model.cuda()
 
     if split == 'train':
         loader = train_loader
@@ -57,7 +58,7 @@ def evaluate(split, model_path, use_gpu):
 if __name__ == '__main__':
     args = get_parser().parse_args()
     if args.ensemble:
-        evaluate_ensemble(args.split, args.model_path, args.gpu)
+        evaluate_ensemble(args.split, args.model_path, args.diagnosis, args.gpu)
     else:
-        evaluate(args.split, args.model_path, args.gpu)
+        evaluate(args.split, args.model_path, args.diagnosis, args.gpu)
 
