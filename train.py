@@ -58,7 +58,7 @@ def run_model(model, loader, train=False, optimizer=None):
     fpr, tpr, threshold = metrics.roc_curve(labels, preds)
     auc = metrics.auc(fpr, tpr)
 
-    return avg_loss, auc
+    return avg_loss, auc, preds, labels
 
 def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
     train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu, horizontal_flip, rotate, shift)
@@ -81,11 +81,11 @@ def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizon
     for epoch in range(50):
         change = datetime.now() - start_time
         print('starting epoch {}. time passed: {}'.format(epoch+1, str(change)))
-        train_loss, train_auc = run_model(model, train_loader, train=True, optimizer=optimizer)
+        train_loss, train_auc, _, _ = run_model(model, train_loader, train=True, optimizer=optimizer)
         print(f'train loss: {train_loss:0.4f}')
         print(f'train AUC: {train_auc:0.4f}')
 
-        val_loss, val_auc = run_model(model, valid_loader)
+        val_loss, val_auc, _, _ = run_model(model, valid_loader)
         print(f'valid loss: {val_loss:0.4f}')
         print(f'valid AUC: {val_auc:0.4f}')
 
