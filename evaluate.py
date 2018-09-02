@@ -12,11 +12,12 @@ def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, required=True)
     parser.add_argument('--split', type=str, required=True)
+    parser.add_argument('--diagnosis', type=int, required=True)
     parser.add_argument('--gpu', action='store_true')
     return parser
 
-def evaluate(split, model_path, use_gpu):
-    train_loader, valid_loader, test_loader = load_data('data', use_gpu)
+def evaluate(split, model_path, diagnosis, use_gpu):
+    train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu)
 
     model = SeriesModel()
     if use_gpu:
@@ -37,4 +38,4 @@ def evaluate(split, model_path, use_gpu):
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    evaluate(args.split, args.model_path, args.gpu)
+    evaluate(args.split, args.model_path, args.diagnosis, args.gpu)

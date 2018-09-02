@@ -60,8 +60,8 @@ def run_model(model, loader, train=False, optimizer=None):
 
     return avg_loss, auc
 
-def train(rundir, model_path, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
-    train_loader, valid_loader, test_loader = load_data('data', use_gpu, horizontal_flip, rotate, shift)
+def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
+    train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu, horizontal_flip, rotate, shift)
     
     model = SeriesModel()
     
@@ -102,7 +102,8 @@ def get_parser():
     parser = argparse.ArgumentParser()
     # Experiment Parameters
     parser.add_argument('--rundir', type=str, required=True)
-    parser.add_argument('--model_path', type=str, required=True)
+    parser.add_argument('--diagnosis', type=int, required=True)
+    parser.add_argument('--model_path', default='models/sagittal-acl', type=str)
     parser.add_argument('--seed', default=42, type=int)
     parser.add_argument('--gpu', action='store_true')
     # Training Parameters
@@ -130,4 +131,4 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    train(args.rundir, args.model_path, args.epochs, args.learning_rate, args.gpu, args.horizontal_flip, args.rotate, args.shift)
+    train(args.rundir, args.model_path, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.horizontal_flip, args.rotate, args.shift)

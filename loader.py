@@ -14,7 +14,7 @@ MEAN = 58.09
 STDDEV = 49.73
 
 class Dataset(data.Dataset):
-    def __init__(self, datadir, split, use_gpu, horizontal_flip, rotate, shift):
+    def __init__(self, datadir, diagnosis, split, use_gpu, horizontal_flip, rotate, shift):
         super().__init__()
         self.train = (split == 'train')
         self.datadir = Path(datadir)
@@ -23,7 +23,7 @@ class Dataset(data.Dataset):
         with open(self.datadir / f'{split}.csv') as f:
             self.paths = [line.strip().split(',')[0] for line in f]
         with open(self.datadir / f'{split}.csv') as f:
-            self.labels = [int(int(line.strip().split(',')[1]) > 0) for line in f]
+            self.labels = [int(int(line.strip().split(',')[1]) > diagnosis) for line in f]
 
         if self.train:
             self.horizontal_flip = horizontal_flip
@@ -108,10 +108,10 @@ class Dataset(data.Dataset):
     def __len__(self):
         return len(self.paths)
 
-def load_data(datadir, use_gpu, horizontal_flip=False, rotate=0, shift=0):
-    train_dataset = Dataset(datadir, 'train', use_gpu, horizontal_flip, rotate, shift)
-    valid_dataset = Dataset(datadir, 'valid', use_gpu, horizontal_flip=False, rotate=0, shift=0)
-    test_dataset = Dataset(datadir, 'test', use_gpu, horizontal_flip=False, rotate=0, shift=0)
+def load_data(datadir, diagnosis=0, use_gpu=False, horizontal_flip=False, rotate=0, shift=0):
+    train_dataset = Dataset(datadir, diagnosis, 'train', use_gpu, horizontal_flip, rotate, shift)
+    valid_dataset = Dataset(datadir, diagnosis, 'valid', use_gpu, horizontal_flip=False, rotate=0, shift=0)
+    test_dataset = Dataset(datadir, diagnosis, 'test', use_gpu, horizontal_flip=False, rotate=0, shift=0)
 
     train_loader = data.DataLoader(train_dataset, batch_size=1, num_workers=8, shuffle=True)
     valid_loader = data.DataLoader(valid_dataset, batch_size=1, num_workers=8, shuffle=False)
