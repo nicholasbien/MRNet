@@ -1,0 +1,250 @@
+starting epoch 1. time passed: 0:00:00.000005
+train loss: 0.2176
+train AUC: 0.7491
+valid loss: 0.2488
+valid AUC: 0.7268
+starting epoch 2. time passed: 0:00:22.873336
+train loss: 0.2062
+train AUC: 0.7872
+valid loss: 0.2470
+valid AUC: 0.7134
+starting epoch 3. time passed: 0:00:45.731800
+train loss: 0.1996
+train AUC: 0.8026
+valid loss: 0.2620
+valid AUC: 0.7345
+starting epoch 4. time passed: 0:01:08.522143
+train loss: 0.1922
+train AUC: 0.8227
+valid loss: 0.2391
+valid AUC: 0.7365
+starting epoch 5. time passed: 0:01:31.590308
+train loss: 0.1823
+train AUC: 0.8411
+valid loss: 0.2433
+valid AUC: 0.7430
+starting epoch 6. time passed: 0:01:54.412970
+train loss: 0.1841
+train AUC: 0.8398
+valid loss: 0.2365
+valid AUC: 0.7541
+starting epoch 7. time passed: 0:02:17.567699
+train loss: 0.1783
+train AUC: 0.8552
+valid loss: 0.2490
+valid AUC: 0.7585
+starting epoch 8. time passed: 0:02:40.382995
+train loss: 0.1727
+train AUC: 0.8673
+valid loss: 0.2387
+valid AUC: 0.7726
+starting epoch 9. time passed: 0:03:03.298406
+train loss: 0.1676
+train AUC: 0.8788
+valid loss: 0.2296
+valid AUC: 0.7692
+starting epoch 10. time passed: 0:03:26.370356
+train loss: 0.1667
+train AUC: 0.8763
+valid loss: 0.2287
+valid AUC: 0.7702
+starting epoch 11. time passed: 0:03:49.286311
+train loss: 0.1585
+train AUC: 0.8938
+valid loss: 0.2284
+valid AUC: 0.7756
+starting epoch 12. time passed: 0:04:11.535030
+train loss: 0.1605
+train AUC: 0.8903
+valid loss: 0.2358
+valid AUC: 0.7720
+starting epoch 13. time passed: 0:04:32.715389
+train loss: 0.1568
+train AUC: 0.8983
+valid loss: 0.2489
+valid AUC: 0.7586
+starting epoch 14. time passed: 0:04:53.901624
+train loss: 0.1482
+train AUC: 0.9120
+valid loss: 0.2372
+valid AUC: 0.7657
+starting epoch 15. time passed: 0:05:15.053995
+train loss: 0.1475
+train AUC: 0.9117
+valid loss: 0.2262
+valid AUC: 0.7843
+starting epoch 16. time passed: 0:05:36.426780
+train loss: 0.1416
+train AUC: 0.9247
+valid loss: 0.2240
+valid AUC: 0.7952
+starting epoch 17. time passed: 0:05:56.121033
+train loss: 0.1389
+train AUC: 0.9306
+valid loss: 0.2304
+valid AUC: 0.7814
+starting epoch 18. time passed: 0:06:15.425831
+train loss: 0.1341
+train AUC: 0.9321
+valid loss: 0.2246
+valid AUC: 0.7914
+starting epoch 19. time passed: 0:06:34.826291
+train loss: 0.1346
+train AUC: 0.9347
+valid loss: 0.2194
+valid AUC: 0.8005
+starting epoch 20. time passed: 0:06:54.443317
+train loss: 0.1231
+train AUC: 0.9500
+valid loss: 0.2152
+valid AUC: 0.8026
+starting epoch 21. time passed: 0:07:14.145008
+train loss: 0.1227
+train AUC: 0.9461
+valid loss: 0.2111
+valid AUC: 0.8124
+starting epoch 22. time passed: 0:07:34.481618
+train loss: 0.1239
+train AUC: 0.9477
+valid loss: 0.2868
+valid AUC: 0.8218
+starting epoch 23. time passed: 0:07:54.471347
+train loss: 0.1214
+train AUC: 0.9507
+valid loss: 0.2257
+valid AUC: 0.7843
+starting epoch 24. time passed: 0:08:15.399523
+train loss: 0.1156
+train AUC: 0.9537
+valid loss: 0.2229
+valid AUC: 0.8174
+starting epoch 25. time passed: 0:08:36.243796
+train loss: 0.1093
+train AUC: 0.9650
+valid loss: 0.2193
+valid AUC: 0.8089
+starting epoch 26. time passed: 0:08:57.121883
+train loss: 0.1068
+train AUC: 0.9640
+valid loss: 0.2320
+valid AUC: 0.7778
+starting epoch 27. time passed: 0:09:17.969883
+train loss: 0.1035
+train AUC: 0.9676
+valid loss: 0.2525
+valid AUC: 0.7952
+starting epoch 28. time passed: 0:09:38.837333
+train loss: 0.0927
+train AUC: 0.9817
+valid loss: 0.2084
+valid AUC: 0.8201
+starting epoch 29. time passed: 0:09:59.939811
+train loss: 0.0874
+train AUC: 0.9854
+valid loss: 0.2309
+valid AUC: 0.8311
+starting epoch 30. time passed: 0:10:19.326422
+train loss: 0.0859
+train AUC: 0.9859
+valid loss: 0.2019
+valid AUC: 0.8319
+starting epoch 31. time passed: 0:10:39.232246
+train loss: 0.0851
+train AUC: 0.9859
+valid loss: 0.2037
+valid AUC: 0.8392
+starting epoch 32. time passed: 0:10:59.166756
+train loss: 0.0844
+train AUC: 0.9874
+valid loss: 0.2115
+valid AUC: 0.8296
+starting epoch 33. time passed: 0:11:20.008254
+train loss: 0.0822
+train AUC: 0.9876
+valid loss: 0.2158
+valid AUC: 0.8314
+starting epoch 34. time passed: 0:11:41.596516
+train loss: 0.0795
+train AUC: 0.9893
+valid loss: 0.2087
+valid AUC: 0.8363
+starting epoch 35. time passed: 0:12:07.840923
+train loss: 0.0798
+train AUC: 0.9908
+valid loss: 0.2021
+valid AUC: 0.8376
+starting epoch 36. time passed: 0:12:49.640494
+train loss: 0.0761
+train AUC: 0.9916
+valid loss: 0.2202
+valid AUC: 0.8234
+starting epoch 37. time passed: 0:13:31.794669
+train loss: 0.0723
+train AUC: 0.9931
+valid loss: 0.2105
+valid AUC: 0.8344
+starting epoch 38. time passed: 0:14:13.885695
+train loss: 0.0710
+train AUC: 0.9940
+valid loss: 0.2083
+valid AUC: 0.8329
+starting epoch 39. time passed: 0:14:56.341306
+train loss: 0.0707
+train AUC: 0.9939
+valid loss: 0.2050
+valid AUC: 0.8345
+starting epoch 40. time passed: 0:15:39.206578
+train loss: 0.0708
+train AUC: 0.9940
+valid loss: 0.2229
+valid AUC: 0.8358
+starting epoch 41. time passed: 0:16:22.154412
+train loss: 0.0697
+train AUC: 0.9948
+valid loss: 0.2228
+valid AUC: 0.8347
+starting epoch 42. time passed: 0:17:04.906176
+train loss: 0.0692
+train AUC: 0.9942
+valid loss: 0.2149
+valid AUC: 0.8352
+starting epoch 43. time passed: 0:17:47.401651
+train loss: 0.0678
+train AUC: 0.9963
+valid loss: 0.2126
+valid AUC: 0.8334
+starting epoch 44. time passed: 0:18:29.798475
+train loss: 0.0675
+train AUC: 0.9956
+valid loss: 0.2149
+valid AUC: 0.8342
+starting epoch 45. time passed: 0:19:11.610512
+train loss: 0.0675
+train AUC: 0.9956
+valid loss: 0.2116
+valid AUC: 0.8324
+starting epoch 46. time passed: 0:19:54.377084
+train loss: 0.0674
+train AUC: 0.9959
+valid loss: 0.2129
+valid AUC: 0.8323
+starting epoch 47. time passed: 0:20:36.871794
+train loss: 0.0672
+train AUC: 0.9958
+valid loss: 0.2121
+valid AUC: 0.8333
+starting epoch 48. time passed: 0:21:19.533638
+train loss: 0.0673
+train AUC: 0.9957
+valid loss: 0.2137
+valid AUC: 0.8336
+starting epoch 49. time passed: 0:22:01.425033
+train loss: 0.0665
+train AUC: 0.9961
+valid loss: 0.2143
+valid AUC: 0.8331
+starting epoch 50. time passed: 0:22:43.413476
+train loss: 0.0664
+train AUC: 0.9961
+valid loss: 0.2137
+valid AUC: 0.8327
