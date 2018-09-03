@@ -2,16 +2,11 @@
 
 # Setup
 
-- extract all volumes from http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/ and place in data/volumes
-- save pretrained models at models/[view]-[task]
+- extract all volumes from http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/ and in folders 'vol01'-'vol10' in root directory
 
 ## Train
 
-`python train.py --rundir [experiment-name] --model_path models/sagittal-acl`
-
-OR
-
-`export CUDA_VISIBLE_DEVICES=0; python train.py --rundir [experiment-name] --model_path models/sagittal-acl --gpu`
+`python train.py --rundir [experiment name] --diagnosis 0 --gpu`
 
 - arguments saved at [experiment-name]/args.json
 - models saved at [experiment-name]/[val_loss]_[train_loss]_epoch[epoch_num]
@@ -19,10 +14,6 @@ OR
 
 ## Evaluate
 
-`python evaluate.py --split [train/valid/test] --model_path models/sagittal-acl`
-
-OR
-
-`export CUDA_VISIBLE_DEVICES=0; python evaluate.py --split [train/valid/test] __model_path [experiment_name]/[model_path]`
+`python evaluate.py --split [train/valid/test] --model_path my-experiment/val0.1609_train0.0595_epoch15 --diagnosis 0 --gpu`
 
 - prints loss & AUC
