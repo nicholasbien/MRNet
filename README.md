@@ -2,7 +2,7 @@
 
 # Setup
 
-- download the 10 `.7z` files at http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/volumetric_data/vol*.7z and extract into folders named 'vol01'-'vol10' in root directory
+- download the 10 `.7z` files at http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/volumetric_data/vol*.7z and extract into folders named `vol1`-`vol10` in root directory
 - download http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/metadata.csv and place in root directory
 
 ## Train
