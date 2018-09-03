@@ -1,0 +1,7 @@
+name: knee-mr
+dependencies:
+  - numpy
+  - pytorch
+  - torchvision
+  - scikit-learn
+
