@@ -12,7 +12,7 @@ from evaluate import run_model
 from loader import load_data
 from model import SeriesModel
 
-def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
+def train(rundir, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
     train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
     valid_dirs = ['vol10','vol05']
     test_dirs = ['vol01','vol02']
@@ -20,9 +20,6 @@ def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizon
     
     model = SeriesModel()
     
-    state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
-#    model.load_state_dict(state_dict)
-        
     if use_gpu:
         model = model.cuda()
 
@@ -59,7 +56,6 @@ def get_parser():
     # Experiment Parameters
     parser.add_argument('--rundir', type=str, required=True)
     parser.add_argument('--diagnosis', type=int, required=True)
-    parser.add_argument('--model_path', default='models/sagittal-acl', type=str)
     parser.add_argument('--seed', default=42, type=int)
     parser.add_argument('--gpu', action='store_true')
     # Training Parameters
@@ -87,4 +83,4 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    train(args.rundir, args.model_path, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.horizontal_flip, args.rotate, args.shift)
+    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.horizontal_flip, args.rotate, args.shift)
