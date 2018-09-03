@@ -13,12 +13,12 @@ from loader import load_data
 from model import SeriesModel
 
 def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
-    train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu, horizontal_flip, rotate, shift)
+    train_loader, valid_loader, test_loader = load_data(['vol08','vol04','vol03','vol09','vol06','vol07'],['vol10','vol05'],['vol01','vol02'], diagnosis, use_gpu, horizontal_flip, rotate, shift)
     
     model = SeriesModel()
     
     state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
-    model.load_state_dict(state_dict)
+#    model.load_state_dict(state_dict)
         
     if use_gpu:
         model = model.cuda()

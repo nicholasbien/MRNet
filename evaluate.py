@@ -79,7 +79,7 @@ def evaluate_ensemble(split, model_dir, diagnosis, use_gpu):
     print(f'ensemble {split} AUC: {auc:0.4f}')
 
 def evaluate(split, model_path, diagnosis, use_gpu):
-    train_loader, valid_loader, test_loader = load_data('data', diagnosis, use_gpu)
+    train_loader, valid_loader, test_loader = load_data(['vol08','vol04','vol03','vol09','vol06','vol07'],['vol10','vol05'],['vol01','vol02'], diagnosis, use_gpu)
 
     model = SeriesModel()
     state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
