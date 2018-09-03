@@ -1,4 +1,5 @@
 import argparse
+import matplotlib.pyplot as plt
 import os
 import numpy as np
 import torch
@@ -15,7 +16,6 @@ def get_parser():
     parser.add_argument('--split', type=str, required=True)
     parser.add_argument('--diagnosis', type=int, required=True)
     parser.add_argument('--gpu', action='store_true')
-    parser.add_argument('--ensemble', action='store_true')
     return parser
 
 def run_model(model, loader, train=False, optimizer=None):
@@ -65,19 +65,6 @@ def run_model(model, loader, train=False, optimizer=None):
 
     return avg_loss, auc, preds, labels
 
-def evaluate_ensemble(split, model_dir, diagnosis, use_gpu):
-    all_preds = []
-    for model_path in os.listdir(model_dir):
-        preds, labels = evaluate(split, os.path.join(model_dir, model_path), diagnosis, use_gpu)
-        all_preds.append(preds)
-    preds = np.array(all_preds)
-    labels = np.array(labels)
-
-    preds = np.mean(preds, axis=0)
-    fpr, tpr, threshold = metrics.roc_curve(labels, preds)
-    auc = metrics.auc(fpr, tpr)
-    print(f'ensemble {split} AUC: {auc:0.4f}')
-
 def evaluate(split, model_path, diagnosis, use_gpu):
     train_loader, valid_loader, test_loader = load_data(['vol08','vol04','vol03','vol09','vol06','vol07'],['vol10','vol05'],['vol01','vol02'], diagnosis, use_gpu)
 
@@ -96,6 +83,7 @@ def evaluate(split, model_path, diagnosis, use_gpu):
         loader = test_loader
 
     loss, auc, preds, labels = run_model(model, loader)
+
     print(f'{split} loss: {loss:0.4f}')
     print(f'{split} AUC: {auc:0.4f}')
 
@@ -103,8 +91,5 @@ def evaluate(split, model_path, diagnosis, use_gpu):
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    if args.ensemble:
-        evaluate_ensemble(args.split, args.model_path, args.diagnosis, args.gpu)
-    else:
-        evaluate(args.split, args.model_path, args.diagnosis, args.gpu)
+    evaluate(args.split, args.model_path, args.diagnosis, args.gpu)
 
