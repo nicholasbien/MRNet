@@ -2,8 +2,8 @@
 
 # Setup
 
-- download http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/metadata.csv to root directory
-- extract all volumes from http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/ and place enclosed .pck files in in folders named 'vol01'-'vol10' in root directory
+- extract all `.7z` volumes from http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/volumetric_data/ and place enclosed .pck files in in folders named 'vol01'-'vol10' in root directory
+- download http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/metadata.csv and place in root directory
 
 ## Train
 
