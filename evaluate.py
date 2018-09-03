@@ -66,7 +66,10 @@ def run_model(model, loader, train=False, optimizer=None):
     return avg_loss, auc, preds, labels
 
 def evaluate(split, model_path, diagnosis, use_gpu):
-    train_loader, valid_loader, test_loader = load_data(['vol08','vol04','vol03','vol09','vol06','vol07'],['vol10','vol05'],['vol01','vol02'], diagnosis, use_gpu)
+    train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
+    valid_dirs = ['vol10','vol05']
+    test_dirs = ['vol01','vol02']
+    train_loader, valid_loader, test_loader = load_data(train_dirs, valid_dirs, test_dirs, diagnosis, use_gpu)
 
     model = SeriesModel()
     state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
