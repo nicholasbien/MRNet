@@ -95,4 +95,3 @@ def evaluate(split, model_path, diagnosis, use_gpu):
 if __name__ == '__main__':
     args = get_parser().parse_args()
     evaluate(args.split, args.model_path, args.diagnosis, args.gpu)
-
