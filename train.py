@@ -13,7 +13,10 @@ from loader import load_data
 from model import SeriesModel
 
 def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
-    train_loader, valid_loader, test_loader = load_data(['vol08','vol04','vol03','vol09','vol06','vol07'],['vol10','vol05'],['vol01','vol02'], diagnosis, use_gpu, horizontal_flip, rotate, shift)
+    train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
+    valid_dirs = ['vol10','vol05']
+    test_dirs = ['vol01','vol02']
+    train_loader, valid_loader, test_loader = load_data(train_dirs, valid_dirs, test_dirs, diagnosis, use_gpu, horizontal_flip, rotate, shift)
     
     model = SeriesModel()
     
@@ -33,6 +36,7 @@ def train(rundir, model_path, diagnosis, epochs, learning_rate, use_gpu, horizon
     for epoch in range(50):
         change = datetime.now() - start_time
         print('starting epoch {}. time passed: {}'.format(epoch+1, str(change)))
+        
         train_loss, train_auc, _, _ = run_model(model, train_loader, train=True, optimizer=optimizer)
         print(f'train loss: {train_loss:0.4f}')
         print(f'train AUC: {train_auc:0.4f}')
