@@ -16,6 +16,6 @@
 
 ## Evaluate
 
-`python evaluate.py --split [train/valid/test] --diagnosis 0 --model_path my-experiment/val0.1609_train0.0595_epoch15 --gpu`
+`python evaluate.py --split [train/valid/test] --diagnosis 0 --model_path [experiment-name]/[val_loss]_[train_loss]_epoch[epoch_num] --gpu`
 
 - prints loss & AUC
