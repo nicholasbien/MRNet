@@ -2,11 +2,11 @@
 
 # Setup
 
+`bash download.sh`
+
 `conda env create -f environment.yml`
 
 `source activate knee-mr`
-
-`bash download.sh`
 
 ## Train
 
