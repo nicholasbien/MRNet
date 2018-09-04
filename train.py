@@ -12,11 +12,11 @@ from evaluate import run_model
 from loader import load_data
 from model import SeriesModel
 
-def train(rundir, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, rotate, shift):
+def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
     train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
     valid_dirs = ['vol10','vol05']
     test_dirs = ['vol01','vol02']
-    train_loader, valid_loader, test_loader = load_data(train_dirs, valid_dirs, test_dirs, diagnosis, use_gpu, horizontal_flip, rotate, shift)
+    train_loader, valid_loader, test_loader = load_data(train_dirs, valid_dirs, test_dirs, diagnosis, use_gpu)
     
     model = SeriesModel()
     
@@ -53,21 +53,15 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu, horizontal_flip, ro
 
 def get_parser():
     parser = argparse.ArgumentParser()
-    # Experiment Parameters
     parser.add_argument('--rundir', type=str, required=True)
     parser.add_argument('--diagnosis', type=int, required=True)
     parser.add_argument('--seed', default=42, type=int)
     parser.add_argument('--gpu', action='store_true')
-    # Training Parameters
     parser.add_argument('--learning_rate', default=1e-05, type=float)
     parser.add_argument('--weight_decay', default=0.01, type=float)
     parser.add_argument('--epochs', default=50, type=int)
     parser.add_argument('--max_patience', default=5, type=int)
     parser.add_argument('--factor', default=0.3, type=float)
-    # Data Augmentation Parameters
-    parser.add_argument('--horizontal_flip', action='store_true')
-    parser.add_argument('--rotate', default=0, type=int)
-    parser.add_argument('--shift', default=0, type=int)
     return parser
 
 if __name__ == '__main__':
@@ -83,4 +77,4 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.horizontal_flip, args.rotate, args.shift)
+    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu)
