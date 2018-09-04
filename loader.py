@@ -5,7 +5,6 @@ import torch
 import torch.nn.functional as F
 import torch.utils.data as data
 
-from scipy.ndimage.interpolation import rotate
 from torch.autograd import Variable
 
 INPUT_DIM = 224
@@ -14,9 +13,8 @@ MEAN = 58.09
 STDDEV = 49.73
 
 class Dataset(data.Dataset):
-    def __init__(self, datadirs, diagnosis, split, use_gpu, horizontal_flip, rotate, shift):
+    def __init__(self, datadirs, diagnosis, use_gpu):
         super().__init__()
-        self.train = (split == 'train')
         self.use_gpu = use_gpu
 
         label_dict = {}
@@ -65,9 +63,6 @@ class Dataset(data.Dataset):
         # convert to RGB
         vol = np.stack((vol,)*3, axis=1)
 
-        #if self.train:
-        #    vol = self.transform(vol)
-
         vol_tensor = torch.FloatTensor(vol)
         label_tensor = torch.FloatTensor([self.labels[index]])
 
@@ -76,10 +71,10 @@ class Dataset(data.Dataset):
     def __len__(self):
         return len(self.paths)
 
-def load_data(train_dirs, valid_dirs, test_dirs, diagnosis=0, use_gpu=False, horizontal_flip=False, rotate=0, shift=0):
-    train_dataset = Dataset(train_dirs, diagnosis, 'train', use_gpu, horizontal_flip, rotate, shift)
-    valid_dataset = Dataset(valid_dirs, diagnosis, 'valid', use_gpu, horizontal_flip=False, rotate=0, shift=0)
-    test_dataset = Dataset(test_dirs, diagnosis, 'test', use_gpu, horizontal_flip=False, rotate=0, shift=0)
+def load_data(train_dirs, valid_dirs, test_dirs, diagnosis=0, use_gpu=False):
+    train_dataset = Dataset(train_dirs, diagnosis, use_gpu)
+    valid_dataset = Dataset(valid_dirs, diagnosis, use_gpu)
+    test_dataset = Dataset(test_dirs, diagnosis, use_gpu)
 
     train_loader = data.DataLoader(train_dataset, batch_size=1, num_workers=8, shuffle=True)
     valid_loader = data.DataLoader(valid_dataset, batch_size=1, num_workers=8, shuffle=False)
