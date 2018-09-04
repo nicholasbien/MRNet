@@ -13,10 +13,7 @@ from loader import load_data
 from model import SeriesModel
 
 def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
-    train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
-    valid_dirs = ['vol10','vol05']
-    test_dirs = ['vol01','vol02']
-    train_loader, valid_loader, test_loader = load_data(train_dirs, valid_dirs, test_dirs, diagnosis, use_gpu)
+    train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
     
     model = SeriesModel()
     
