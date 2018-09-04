@@ -1,8 +1,8 @@
 # knee-mr
 
-# Setup
-
 Dataset from http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/Stajduhar2017.pdf.
+
+# Setup
 
 `bash download.sh`
 
