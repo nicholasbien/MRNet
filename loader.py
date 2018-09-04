@@ -71,7 +71,11 @@ class Dataset(data.Dataset):
     def __len__(self):
         return len(self.paths)
 
-def load_data(train_dirs, valid_dirs, test_dirs, diagnosis=0, use_gpu=False):
+def load_data(diagnosis, use_gpu=False):
+    train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
+    valid_dirs = ['vol10','vol05']
+    test_dirs = ['vol01','vol02']
+    
     train_dataset = Dataset(train_dirs, diagnosis, use_gpu)
     valid_dataset = Dataset(valid_dirs, diagnosis, use_gpu)
     test_dataset = Dataset(test_dirs, diagnosis, use_gpu)
