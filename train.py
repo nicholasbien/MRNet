@@ -8,9 +8,52 @@ from datetime import datetime
 from pathlib import Path
 from sklearn import metrics
 
-from evaluate import run_model
 from loader import load_data
 from model import SeriesModel
+
+def run_model(model, loader, train=False, optimizer=None):
+    preds = []
+    labels = []
+    losses = []
+
+    if train:
+        model.train()
+    else:
+        model.eval()
+
+    for batch in loader:
+        if train:
+            optimizer.zero_grad()
+
+        vol, label = batch
+        if loader.dataset.use_gpu:
+            vol = vol.cuda()
+            label = label.cuda()
+        vol = Variable(vol)
+        label = Variable(label)
+
+        logit = model.forward(vol)
+
+        loss = loader.dataset.weighted_loss(logit, label)
+
+        pred = torch.sigmoid(logit)
+        pred_npy = pred.data.cpu().numpy()[0][0]
+        label_npy = label.data.cpu().numpy()[0][0]
+
+        losses.append(loss.item())
+        preds.append(pred_npy)
+        labels.append(label_npy)
+
+        if train:
+            loss.backward()
+            optimizer.step()
+
+    avg_loss = np.array(losses).mean()
+
+    fpr, tpr, threshold = metrics.roc_curve(labels, preds)
+    auc = metrics.auc(fpr, tpr)
+
+    return avg_loss, auc, preds, labels
 
 def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
     train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
@@ -55,31 +98,3 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
     save_path = Path(rundir) / best_file_name
     torch.save(best_state_dict, save_path)
 
-def get_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--rundir', type=str, required=True)
-    parser.add_argument('--diagnosis', type=int, required=True)
-    parser.add_argument('--seed', default=42, type=int)
-    parser.add_argument('--gpu', action='store_true')
-    parser.add_argument('--learning_rate', default=1e-05, type=float)
-    parser.add_argument('--weight_decay', default=0.01, type=float)
-    parser.add_argument('--epochs', default=50, type=int)
-    parser.add_argument('--max_patience', default=5, type=int)
-    parser.add_argument('--factor', default=0.3, type=float)
-    parser.add_argument('--save_all', action = 'store_true')
-    return parser
-
-if __name__ == '__main__':
-    args = get_parser().parse_args()
-    
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
-    if args.gpu:
-        torch.cuda.manual_seed_all(args.seed)
-
-    os.makedirs(args.rundir, exist_ok=True)
-    
-    with open(Path(args.rundir) / 'args.json', 'w') as out:
-        json.dump(vars(args), out, indent=4)
-
-    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.save_all)
