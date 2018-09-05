@@ -6,7 +6,7 @@ I. Štajduhar, M. Mamula, D. Miletić, G. Unal, Semi-automated detection of ante
 
 # Setup
 
-`bash download.sh`
+`bash download.sh` (caution: downloads ~6.68 GB of data)
 
 `conda env create -f environment.yml`
 
