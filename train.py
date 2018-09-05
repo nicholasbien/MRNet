@@ -12,7 +12,7 @@ from evaluate import run_model
 from loader import load_data
 from model import SeriesModel
 
-def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
+def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
     train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
     
     model = SeriesModel()
@@ -23,7 +23,8 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
     optimizer = torch.optim.Adam(model.parameters(), learning_rate, weight_decay=.01)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=.3, threshold=1e-4)
 
-    best_val_loss = float('inf')
+    best_val_loss, best_state_dict, best_file_name = float('inf'), None, None
+
 
     start_time = datetime.now()
 
@@ -41,12 +42,18 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu):
 
         scheduler.step(val_loss)
 
+        if save_all:
+            file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
+            save_path = Path(rundir) / best_file_name
+            torch.save(model.state_dict(), save_path)
+
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            best_state_dict = model.state_dict()
+            best_file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
 
-            file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
-            save_path = Path(rundir) / file_name
-            torch.save(model.state_dict(), save_path)
+    save_path = Path(rundir) / best_file_name
+    torch.save(best_state_dict, save_path)
 
 def get_parser():
     parser = argparse.ArgumentParser()
@@ -59,6 +66,7 @@ def get_parser():
     parser.add_argument('--epochs', default=50, type=int)
     parser.add_argument('--max_patience', default=5, type=int)
     parser.add_argument('--factor', default=0.3, type=float)
+    parser.add_argument('--save_all', action = 'store_true')
     return parser
 
 if __name__ == '__main__':
@@ -74,4 +82,4 @@ if __name__ == '__main__':
     with open(Path(args.rundir) / 'args.json', 'w') as out:
         json.dump(vars(args), out, indent=4)
 
-    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu)
+    train(args.rundir, args.diagnosis, args.epochs, args.learning_rate, args.gpu, args.save_all)
