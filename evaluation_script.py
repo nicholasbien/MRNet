@@ -16,18 +16,14 @@ def get_parser():
     parser.add_argument('--model_path', type=str, required=True)
     parser.add_argument('--split', type=str, required=True)
     parser.add_argument('--diagnosis', type=int, required=True)
-    parser.add_argument('--gpu', action='store_true')
     return parser
 
-def evaluate(split, model_path, diagnosis, use_gpu):
-    train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
+def evaluate(split, model_path, diagnosis):
+    train_loader, valid_loader, test_loader = load_data(diagnosis)
 
     model = SeriesModel()
-    state_dict = torch.load(model_path, map_location=(None if use_gpu else 'cpu'))
+    state_dict = torch.load(model_path, map_location=(None if torch.cuda.is_available() else 'cpu'))
     model.load_state_dict(state_dict)
-
-    if use_gpu:
-        model = model.cuda()
 
     if split == 'train':
         loader = train_loader
@@ -47,4 +43,6 @@ def evaluate(split, model_path, diagnosis, use_gpu):
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    evaluate(args.split, args.model_path, args.diagnosis, args.gpu)
+    if torch.cuda.is_available():
+        torch.device('cuda')
+    evaluate(args.split, args.model_path, args.diagnosis)

@@ -11,7 +11,6 @@ def get_parser():
     parser.add_argument('--rundir', type=str, required=True)
     parser.add_argument('--diagnosis', type=int, required=True)
     parser.add_argument('--seed', default=42, type=int)
-    parser.add_argument('--gpu', action='store_true')
     parser.add_argument('--learning_rate', default=1e-05, type=float)
     parser.add_argument('--weight_decay', default=0.01, type=float)
     parser.add_argument('--epochs', default=50, type=int)
@@ -22,10 +21,12 @@ def get_parser():
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    
+    torch.device('cuda')
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
-    if args.gpu:
+
+    if torch.cuda.is_available():
+        torch.device('cuda')
         torch.cuda.manual_seed_all(args.seed)
 
     os.makedirs(args.rundir, exist_ok=True)

@@ -13,9 +13,8 @@ MEAN = 58.09
 STDDEV = 49.73
 
 class Dataset(data.Dataset):
-    def __init__(self, datadirs, diagnosis, use_gpu):
+    def __init__(self, datadirs, diagnosis):
         super().__init__()
-        self.use_gpu = use_gpu
 
         label_dict = {}
         self.paths = []
@@ -40,8 +39,7 @@ class Dataset(data.Dataset):
     def weighted_loss(self, prediction, target):
         weights_npy = np.array([self.weights[int(t[0])] for t in target.data])
         weights_tensor = torch.FloatTensor(weights_npy)
-        if self.use_gpu:
-            weights_tensor = weights_tensor.cuda()
+
         loss = F.binary_cross_entropy_with_logits(prediction, target, weight=Variable(weights_tensor))
         return loss
 
@@ -71,14 +69,14 @@ class Dataset(data.Dataset):
     def __len__(self):
         return len(self.paths)
 
-def load_data(diagnosis, use_gpu=False):
+def load_data(diagnosis):
     train_dirs = ['vol08','vol04','vol03','vol09','vol06','vol07']
     valid_dirs = ['vol10','vol05']
     test_dirs = ['vol01','vol02']
     
-    train_dataset = Dataset(train_dirs, diagnosis, use_gpu)
-    valid_dataset = Dataset(valid_dirs, diagnosis, use_gpu)
-    test_dataset = Dataset(test_dirs, diagnosis, use_gpu)
+    train_dataset = Dataset(train_dirs, diagnosis)
+    valid_dataset = Dataset(valid_dirs, diagnosis)
+    test_dataset = Dataset(test_dirs, diagnosis)
 
     train_loader = data.DataLoader(train_dataset, batch_size=1, num_workers=8, shuffle=True)
     valid_loader = data.DataLoader(valid_dataset, batch_size=1, num_workers=8, shuffle=False)

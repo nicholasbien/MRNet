@@ -26,9 +26,7 @@ def run_model(model, loader, train=False, optimizer=None):
             optimizer.zero_grad()
 
         vol, label = batch
-        if loader.dataset.use_gpu:
-            vol = vol.cuda()
-            label = label.cuda()
+
         vol = Variable(vol)
         label = Variable(label)
 
@@ -55,15 +53,13 @@ def run_model(model, loader, train=False, optimizer=None):
 
     return avg_loss, auc, preds, labels
 
-def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
-    train_loader, valid_loader, test_loader = load_data(diagnosis, use_gpu)
+def train(args):
+    #rundir, diagnosis, epochs, learning_rate, use_gpu, save_all
+    train_loader, valid_loader, test_loader = load_data(args.diagnosis)
     
     model = SeriesModel()
-    
-    if use_gpu:
-        model = model.cuda()
 
-    optimizer = torch.optim.Adam(model.parameters(), learning_rate, weight_decay=.01)
+    optimizer = torch.optim.Adam(model.parameters(), args.learning_rate, weight_decay=.01)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=.3, threshold=1e-4)
 
     best_val_loss, best_state_dict, best_file_name = float('inf'), None, None
@@ -71,7 +67,7 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
 
     start_time = datetime.now()
 
-    for epoch in range(50):
+    for epoch in range(args.epochs):
         change = datetime.now() - start_time
         print('starting epoch {}. time passed: {}'.format(epoch+1, str(change)))
         
@@ -85,9 +81,9 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
 
         scheduler.step(val_loss)
 
-        if save_all:
+        if args.save_all:
             file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
-            save_path = Path(rundir) / best_file_name
+            save_path = Path(args.rundir) / best_file_name
             torch.save(model.state_dict(), save_path)
 
         if val_loss < best_val_loss:
@@ -95,6 +91,6 @@ def train(rundir, diagnosis, epochs, learning_rate, use_gpu, save_all):
             best_state_dict = model.state_dict()
             best_file_name = f'val{val_loss:0.4f}_train{train_loss:0.4f}_epoch{epoch+1}'
 
-    save_path = Path(rundir) / best_file_name
+    save_path = Path(args.rundir) / best_file_name
     torch.save(best_state_dict, save_path)
 
