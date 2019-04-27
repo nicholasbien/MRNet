@@ -1,5 +1,13 @@
 # MRNet
 
+Paper: https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1002699
+
+Project website: https://stanfordmlgroup.github.io/projects/mrnet/
+
+MRNet dataset and competition: https://stanfordmlgroup.github.io/competitions/mrnet/
+
+## Data
+
 Dataset from Clinical Hospital Centre Rijeka, Croatia, originally appears in:
 
 I. Štajduhar, M. Mamula, D. Miletić, G. Unal, Semi-automated detection of anterior cruciate ligament injury from MRI, Computer Methods and Programs in Biomedicine, Volume 140, 2017, Pages 151–164. (http://www.riteh.uniri.hr/~istajduh/projects/kneeMRI/data/Stajduhar2017.pdf)
